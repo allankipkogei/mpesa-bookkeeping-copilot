@@ -6,3 +6,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         model = Transaction
         read_only_fields = ("user", "created_at")
         fields = "__all__"
+        
+        def validate_mpesa_code(self, value):
+            return value
+

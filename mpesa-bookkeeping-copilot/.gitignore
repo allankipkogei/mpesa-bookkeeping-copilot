@@ -1,0 +1,19 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Django stuff
+db.sqlite3
+*.log
+/static/
+/media/
+
+# VSCode
+.vscode/
+
+# Virtual environment
+venv/
+.venv/
+
+# Migrations (OPTIONAL — if auto-generated; keep if important)
+transactions/migrations/__pycache__/
