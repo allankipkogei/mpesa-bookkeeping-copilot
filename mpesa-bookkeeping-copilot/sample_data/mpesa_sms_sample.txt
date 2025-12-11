@@ -1,0 +1,19 @@
+SLK1X2Y3Z4 Confirmed. You have received Ksh 5,000.00 from John Doe 254712345678 on 12/1/25 at 9:15 AM. New M-PESA balance is Ksh 15,000.00
+
+SLK2Y3Z4A5 Confirmed. You have received Ksh 3,500.50 from Jane Smith 254723456789 on 12/2/25 at 2:22 PM. New M-PESA balance is Ksh 18,500.50
+
+SLK3Z4A5B6 Confirmed. You have sent Ksh 2,000.00 to Peter Pan 254734567890 on 12/3/25 at 10:30 AM. New M-PESA balance is Ksh 16,500.50
+
+SLK4A5B6C7 Confirmed. You have received Ksh 7,500.00 from Mary Jane 254745678901 on 12/4/25 at 4:45 PM. New M-PESA balance is Ksh 24,000.50
+
+SLK5B6C7D8 Confirmed. You have withdrawn Ksh 1,500.00 from M-PESA Agent 254756789012 on 12/5/25 at 11:20 AM. New M-PESA balance is Ksh 22,500.50
+
+SLK6C7D8E9 Confirmed. You have paid Ksh 4,200.00 to XYZ Company Paybill on 12/6/25 at 1:10 PM. New M-PESA balance is Ksh 18,300.50
+
+SLK7D8E9F0 Confirmed. You have received Ksh 6,300.00 from Bob Builder 254767890123 on 12/7/25 at 3:35 PM. New M-PESA balance is Ksh 24,600.50
+
+SLK8E9F0G1 Confirmed. You have paid Ksh 850.50 for goods at ABC Store on 12/8/25 at 9:50 AM. New M-PESA balance is Ksh 23,750.00
+
+SLK9F0G1H2 Confirmed. You have received Ksh 2,100.00 from Alice Wonder 254778901234 on 12/9/25 at 12:15 PM. New M-PESA balance is Ksh 25,850.00
+
+SLK0G1H2I3 Confirmed. You have received Ksh 4,750.00 from Tom Thumb 254789012345 on 12/10/25 at 2:40 PM. New M-PESA balance is Ksh 30,600.00

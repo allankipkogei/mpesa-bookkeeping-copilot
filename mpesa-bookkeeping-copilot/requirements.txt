@@ -6,3 +6,4 @@ django-cors-headers>=4.0
 python-dotenv>=1.0
 celery>=5.3
 redis>=4.5
+PyPDF2>=3.0.0

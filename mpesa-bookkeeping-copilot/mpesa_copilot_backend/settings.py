@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "auth_app",
     "transactions",
     "copilot_api",
+    'daraja',
 ]
 
 MIDDLEWARE = [
@@ -91,3 +92,5 @@ STATIC_URL = "/static/"
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
+
+WEBHOOK_SECRET = "Kipkogei4545!@#"

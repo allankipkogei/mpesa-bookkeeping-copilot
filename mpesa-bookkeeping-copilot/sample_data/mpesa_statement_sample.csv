@@ -1,0 +1,11 @@
+Receipt No,Completion Time,Details,Transaction Status,Paid In,Withdrawn,Balance
+SLK1A2B3C4,01/12/2025 09:15:30,Payment from Java House Coffee Shop 254712345678,Completed,5000.00,,15000.00
+SLK2B3C4D5,02/12/2025 14:22:45,Uber Ride to Westlands 254723456789,Completed,,350.50,14649.50
+SLK3C4D5E6,03/12/2025 10:30:15,Naivas Supermarket Grocery Shopping 254734567890,Completed,,2000.00,12649.50
+SLK4D5E6F7,04/12/2025 16:45:00,Payment for Office Stationery Supplies,Completed,,1500.00,11149.50
+SLK5E6F7G8,05/12/2025 11:20:30,KPLC Electricity Bill Payment,Completed,,4200.00,6949.50
+SLK6F7G8H9,06/12/2025 13:10:45,KFC Chicken Meal Takeaway,Completed,,850.00,6099.50
+SLK7G8H9I0,07/12/2025 15:35:20,Safaricom Internet Bundle Subscription,Completed,,1500.00,4599.50
+SLK8H9I0J1,08/12/2025 09:50:15,Payment for Wholesale Inventory Stock,Completed,,15000.00,-10400.50
+SLK9I0J1K2,09/12/2025 12:15:30,Salon Beauty Treatment and Haircut,Completed,,2100.00,-12500.50
+SLK0J1K2L3,10/12/2025 14:40:00,Received from Customer Alice Wonder 254789012345,Completed,20000.00,,7499.50

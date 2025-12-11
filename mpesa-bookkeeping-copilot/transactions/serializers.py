@@ -4,9 +4,16 @@ from .models import Transaction
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        read_only_fields = ("user", "created_at")
-        fields = "__all__"
-        
-        def validate_mpesa_code(self, value):
-            return value
-
+        fields = [
+            "id",
+            "user",
+            "trans_type",
+            "amount",
+            "phone_number",
+            "mpesa_code",
+            "date",
+            "category",
+            "description",
+            "created_at",
+        ]
+        read_only_fields = ["id", "created_at"]

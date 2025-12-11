@@ -1,70 +1,68 @@
-# transactions/views_webhook.py
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.utils import timezone
-from django.contrib.auth import get_user_model
-
-from .utils import parse_mpesa_sms
+from django.conf import settings
 from .models import Transaction
+import re
+from datetime import datetime
 
-User = get_user_model()
 
 class SmsWebhookView(APIView):
-    permission_classes = []  # public for testing; add auth/IP restrictions in production
+    permission_classes = []  # keep open for now, but protected by API key
 
     def post(self, request):
-        """
-        Expects JSON like:
-        {
-            "text": "<MPESA SMS body>",
-            "username": "<your-username>"  # optional if phone is provided
-            "phone": "<phone number>"       # optional if username is provided
-        }
-        """
-        # Get SMS text
-        text = request.data.get("text") or request.data.get("message")
-        if not text:
-            return Response({"detail": "SMS text required"}, status=status.HTTP_400_BAD_REQUEST)
+        # ------------------------------------
+        # 1. API KEY SECURITY CHECK
+        # ------------------------------------
+        api_key = request.headers.get("X-API-KEY")
+        if api_key != settings.WEBHOOK_SECRET:
+            return Response({"detail": "Invalid or missing API key"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        # Parse MPESA SMS
-        parsed = parse_mpesa_sms(text)
-        if not parsed:
-            return Response({"detail": "Could not parse SMS"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Identify user
+        text = request.data.get("text")
         username = request.data.get("username")
-        phone = request.data.get("phone")
-        user = None
-        if username:
-            try:
-                user = User.objects.get(username=username)
-            except User.DoesNotExist:
-                return Response({"detail": "User not found"}, status=status.HTTP_404_NOT_FOUND)
-        elif phone:
-            try:
-                user = User.objects.get(phone_number=phone)
-            except User.DoesNotExist:
-                return Response({"detail": "User not found by phone"}, status=status.HTTP_404_NOT_FOUND)
-        else:
-            return Response({"detail": "username or phone required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Prevent duplicate transactions
-        mpesa_code = parsed.get("mpesa_code")
-        if not mpesa_code:
-            return Response({"detail": "MPESA code missing from SMS"}, status=status.HTTP_400_BAD_REQUEST)
+        if not text:
+            return Response({"detail": "Missing `text` field"}, status=status.HTTP_400_BAD_REQUEST)
 
-        if Transaction.objects.filter(user=user, mpesa_code=mpesa_code).exists():
-            return Response({"detail": "Transaction already exists"}, status=status.HTTP_200_OK)
+        # ------------------------------------
+        # 2. Parse SMS using REGEX
+        # ------------------------------------
+        try:
+            pattern = r"([A-Z0-9]{10}) Confirmed\. You have received Ksh ([\d,]+\.\d{2}) from (\d{12}) on (.+?) at (.+?)\. New M-PESA"
+            match = re.search(pattern, text)
 
-        # Create transaction safely
+            if not match:
+                return Response({"detail": "Unrecognized SMS format"}, status=status.HTTP_400_BAD_REQUEST)
+
+            mpesa_code = match.group(1)
+            amount = float(match.group(2).replace(",", ""))
+            phone = match.group(3)
+            date_str = match.group(4) + " " + match.group(5)
+
+            date_obj = datetime.strptime(date_str, "%d/%m/%y %I:%M %p")
+
+        except Exception as e:
+            return Response({"detail": f"Parsing error: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # ------------------------------------
+        # 3. DUPLICATE CHECK
+        # ------------------------------------
+        if Transaction.objects.filter(mpesa_code=mpesa_code).exists():
+            return Response(
+                {"detail": "Duplicate transaction", "mpesa_code": mpesa_code},
+                status=status.HTTP_409_CONFLICT
+            )
+
+        # ------------------------------------
+        # 4. SAVE TRANSACTION
+        # ------------------------------------
         tx = Transaction.objects.create(
-            user=user,
-            trans_type=parsed.get("trans_type", "C2B"),
-            amount=parsed.get("amount", 0),
             mpesa_code=mpesa_code,
-            phone_number=parsed.get("phone_number", ""),
-            date=parsed.get("date") or timezone.now(),  # fallback if date missing
+            amount=amount,
+            phone=phone,
+            date=date_obj,
+            raw_message=text,
+            username=username,
         )
 
         return Response(
